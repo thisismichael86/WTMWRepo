@@ -1,0 +1,42 @@
+﻿@model List<BlogPost>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Welcome to my head</h1>
+    <p class="lead">Things I learn, think and do...</p>
+    @*<p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>*@
+</div>
+
+<div class="row">
+    <div class="col-sm-8 col-md-8">
+        <div class="row">
+            @{
+                foreach (var post in Model)
+                {
+                    <div class="col-md-6">
+                        <div class="thumbnail">
+                            <div class="caption">
+                                <h3>@post.HtmlTitle - ID @post.Id</h3>
+                                <p>@post.HtmlBody</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+            @*<h2>My list of blog items?</h2>
+                <p>
+                    This can be where I put my thoughts and shit.  This will start as the main focus of the site :)
+                </p>
+                <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>*@
+        </div>
+    </div>
+    <div class="col-sm-4 col-md-4">
+        <h2>Side bar - Blog Navigation?</h2>
+        <p>post tags, categories etc.</p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    </div>
+</div>
