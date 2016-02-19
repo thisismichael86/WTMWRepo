@@ -9,6 +9,11 @@ namespace WelcomeToMyHead.Models
 {
     public class BlogPost
     {
+        private HtmlString _htmlTitle;
+        private HtmlString _htmlBody;
+        private string _title;
+        private string _body;
+
         public int Id { get; set; }
 
         public string Title
@@ -35,9 +40,7 @@ namespace WelcomeToMyHead.Models
                 _body = value;
                 _htmlBody = new HtmlString(value);
             }
-        }
-
-        private HtmlString _htmlTitle;
+        }        
 
         [NotMapped]
         public HtmlString HtmlTitle
@@ -46,11 +49,7 @@ namespace WelcomeToMyHead.Models
             {
                 return _htmlTitle ?? new HtmlString(Title);
             }
-        }
-
-        private HtmlString _htmlBody;
-        private string _title;
-        private string _body;
+        }        
 
         [NotMapped]
         public HtmlString HtmlBody
