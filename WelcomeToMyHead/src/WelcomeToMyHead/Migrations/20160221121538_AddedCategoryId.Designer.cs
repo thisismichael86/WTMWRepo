@@ -8,9 +8,10 @@ using WelcomeToMyHead.Models;
 namespace WelcomeToMyHead.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160221121538_AddedCategoryId")]
+    partial class AddedCategoryId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348")
@@ -153,14 +154,9 @@ namespace WelcomeToMyHead.Migrations
 
                     b.Property<string>("Body");
 
-                    b.Property<DateTimeOffset>("CreatedDate");
-
                     b.Property<int>("PostCategoryId");
 
-                    b.Property<string>("Title")
-                        .IsRequired();
-
-                    b.Property<DateTimeOffset?>("UpdatedDate");
+                    b.Property<string>("Title");
 
                     b.HasKey("Id");
                 });

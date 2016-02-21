@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,12 +17,16 @@ namespace WelcomeToMyHead.Models
 
         public int Id { get; set; }
 
+        public int PostCategoryId { get; set; }
+
+        public DateTimeOffset CreatedDate { get; set; }
+
+        public DateTimeOffset? UpdatedDate { get; set; }
+
+        [Required]
         public string Title
         {
-            get
-            {
-                return _title;
-            }
+            get { return _title; }
             set
             {
                 _title = value;
@@ -31,10 +36,7 @@ namespace WelcomeToMyHead.Models
 
         public string Body
         {
-            get
-            {
-                return _body;
-            }
+            get{ return _body; }
             set
             {
                 _body = value;
@@ -45,19 +47,13 @@ namespace WelcomeToMyHead.Models
         [NotMapped]
         public HtmlString HtmlTitle
         {
-            get
-            {
-                return _htmlTitle ?? new HtmlString(Title);
-            }
+            get{ return _htmlTitle ?? new HtmlString(Title); }
         }        
 
         [NotMapped]
         public HtmlString HtmlBody
         {
-            get
-            {
-                return _htmlBody ?? new HtmlString(Body);
-            }
+            get{ return _htmlBody ?? new HtmlString(Body); }
         }
     }
 }

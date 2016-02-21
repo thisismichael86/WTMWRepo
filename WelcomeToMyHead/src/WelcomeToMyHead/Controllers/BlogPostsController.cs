@@ -3,16 +3,21 @@ using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.Mvc.Rendering;
 using Microsoft.Data.Entity;
 using WelcomeToMyHead.Models;
+using Microsoft.AspNet.Authorization;
+using WelcomeToMyHead.ViewModels.BlogPosts;
+using WelcomeToMyHead.Services;
+using System;
 
 namespace WelcomeToMyHead.Controllers
 {
+    [Authorize]
     public class BlogPostsController : Controller
     {
         private ApplicationDbContext _context;
 
         public BlogPostsController(ApplicationDbContext context)
         {
-            _context = context;    
+            _context = context;   
         }
 
         // GET: BlogPosts
@@ -41,18 +46,31 @@ namespace WelcomeToMyHead.Controllers
         // GET: BlogPosts/Create
         public IActionResult Create()
         {
-            return View();
+            //TODO: Fat controller logic - this needs moving to a service
+            var categories = from c in _context.PostCategory
+                            select new SelectListItem
+                            {
+                                Text = c.Name,
+                                Value = c.Id.ToString()
+                            };
+
+            var model = new BlogPostViewModel(categories);
+
+            return View(model);
         }
 
         // POST: BlogPosts/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(BlogPost blogPost)
+        public IActionResult Create(BlogPostViewModel blogPost)
         {
             if (ModelState.IsValid)
             {
-                _context.BlogPost.Add(blogPost);
+                blogPost.Post.CreatedDate = DateTime.Now;
+
+                _context.BlogPost.Add(blogPost.Post);
                 _context.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             return View(blogPost);
@@ -77,12 +95,15 @@ namespace WelcomeToMyHead.Controllers
         // POST: BlogPosts/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(BlogPost blogPost)
+        public IActionResult Edit(BlogPostViewModel blogPost)
         {
             if (ModelState.IsValid)
             {
-                _context.Update(blogPost);
+                blogPost.Post.UpdatedDate = DateTime.Now;
+
+                _context.Update(blogPost.Post);
                 _context.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             return View(blogPost);
@@ -114,6 +135,7 @@ namespace WelcomeToMyHead.Controllers
             BlogPost blogPost = _context.BlogPost.Single(m => m.Id == id);
             _context.BlogPost.Remove(blogPost);
             _context.SaveChanges();
+
             return RedirectToAction("Index");
         }
     }
